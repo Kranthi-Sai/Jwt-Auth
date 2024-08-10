@@ -7,11 +7,11 @@ import (
 )
 
 func main() {
-	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-	  c.JSON(http.StatusOK, gin.H{
-		"message": "pong",
-	  })
+	r:=gin.Default()
+	r.GET("/register",func(c *gin.Context){
+		c.JSON(http.StatusOK,gin.H{
+			"message":"register SuccessFully",
+		})
 	})
-	r.Run()
+	r.Run();
   }
