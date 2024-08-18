@@ -5,5 +5,5 @@
   <li>1) Password Reset</li>
 </ul>
 
-<h3>used pastman for otp generation and verification</h3>
+<h3>used pastmark for otp generation and verification</h3>
 
