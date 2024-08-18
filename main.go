@@ -1,25 +1,34 @@
 package main
 
 import (
-	"net/http"
+	"Jwt-Auth/controllers"
 	"Jwt-Auth/database"
 	"Jwt-Auth/initializer"
-	
+	"Jwt-Auth/middleware"
 
-  "github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	r:=gin.Default()
+	r := gin.Default()
 	initializer.LoadEnvVariables()
-	_,err:= database.ConnectDB()
-	if err!=nil{
+	_, err := database.ConnectDB()
+	if err != nil {
 		panic("Database not Connected")
 	}
-	r.GET("/register",func(c *gin.Context){
-		c.JSON(http.StatusOK,gin.H{
-			"message":"register SuccessFully",
-		})
-	})
-	r.Run();
-  }
+	r.POST("/register", controllers.Register)
+	r.POST("/login", controllers.Login)
+	r.POST("/forgot_password", controllers.ForgetPassword)
+	r.POST("/verify_otp", controllers.VerifyOTP)
+	r.POST("/resend_otp", controllers.ResendOTP)
+	// Apply middleware to a group of routes
+	protected := r.Group("/protected")
+	protected.Use(middleware.JWTAuthMiddleware())
+	{
+		protected.GET("/user", controllers.User)
+		protected.GET("/user/:id", controllers.GetUserById)
+		protected.GET("/users", controllers.GetAllUsers)
+	}
+
+	r.Run()
+}
