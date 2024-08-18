@@ -304,7 +304,7 @@ func VerifyOTP(c *gin.Context) {
 
 	// Extract userID from the "sub" claim
 	userID, _ := (*claims)["sub"].(string)
-	userEmail,_ := (*claims)["email"].(string)
+	userEmail, _ := (*claims)["email"].(string)
 
 	var existingOTP models.OTP
 	if err := database.DB.Where("user_id = ?", userID).First(&existingOTP).Error; err != nil {
@@ -363,7 +363,7 @@ func VerifyOTP(c *gin.Context) {
 	})
 }
 
-//otp resend
+// otp resend
 func ResendOTP(c *gin.Context) {
 	tokenString, err := c.Cookie("jwt")
 	if err != nil {
@@ -451,7 +451,7 @@ func ResendOTP(c *gin.Context) {
 		return
 	}
 
-	client := postmark.NewClient("0bcfcab9-e681-4dde-aa9a-a7482fa297b5", "384df086-9d59-4016-8583-e86768236355")
+	client := postmark.NewClient(os.Getenv("SERVER_TOKEN"), os.Getenv("ACCOUNT_TOKEN"))
 
 	email := postmark.Email{
 		From:       "mote.sai@todaypay.me",
