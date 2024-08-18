@@ -18,6 +18,9 @@ func main() {
 	}
 	r.POST("/register", controllers.Register)
 	r.POST("/login", controllers.Login)
+	r.POST("/forgot_password", controllers.ForgetPassword)
+	r.POST("/verify_otp", controllers.VerifyOTP)
+	r.POST("/resend_otp", controllers.ResendOTP)
 	// Apply middleware to a group of routes
 	protected := r.Group("/protected")
 	protected.Use(middleware.JWTAuthMiddleware())

@@ -17,3 +17,12 @@ type User struct {
 	// Password  []byte         `json:"-"`
 	Password string `gorm:"type:varchar(255);not null" json:"-"`
 }
+
+type OTP struct {
+	ID        uint      `gorm:"primaryKey;autoIncrement"`
+	UserID    uint      `gorm:"index"` // Foreign key to the User table
+	User      User      `gorm:"constraint:OnDelete:CASCADE;"`
+	Code      string    `gorm:"type:varchar(6);not null"`
+	ExpiresAt time.Time `gorm:"not null"`
+	CreatedAt time.Time
+}

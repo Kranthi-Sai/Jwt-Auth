@@ -9,12 +9,13 @@ import (
 )
 
 // GenerateJWT generates a JWT token for a given user ID and email.
-func GenerateJWT(userID uint, email string) (string, error) {
+func GenerateJWT(userID uint, email string, isPartial bool) (string, error) {
 	// Create JWT claims
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub":   strconv.Itoa(int(userID)),
-		"email": email,
-		"exp":   time.Now().Add(time.Hour).Unix(),
+		"sub":       strconv.Itoa(int(userID)),
+		"email":     email,
+		"exp":       time.Now().Add(time.Hour).Unix(),
+		"ispartial": isPartial,
 	})
 
 	// Sign the token with the secret
